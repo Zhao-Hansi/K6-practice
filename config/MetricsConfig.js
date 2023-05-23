@@ -12,7 +12,9 @@ export const metrics = {
         total_request: new Counter('totally request number'),
         requestDuration : new Trend('calculateAPI request duration'),
         checkFailureRate : new Rate('check_failure_rate')
+    },
+    errorCheck :{
+        generalErrors: new Counter('Errors')
     }
 }
 
-module.exports = metrics;
