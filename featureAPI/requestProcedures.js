@@ -1,7 +1,8 @@
 import http from "k6/http";
 import {metrics} from "../config/MetricsConfig";
-import {re} from "@babel/core/lib/vendor/import-meta-resolve";
+import {getSutUrl} from "../config/EnvConfig";
 
+const sutUrl = getSutUrl(process.env)
 const handleMetricsErrors = (errorCounter, res) =>{
     if (res.status !== 200){
         errorCounter.add(1);
