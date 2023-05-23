@@ -30,6 +30,21 @@ export const procedure = {
         }
         metrics.calculatePai.requestDuration.add(res.timings.duration);
         return res;
+    },
+
+    loginAPI(){
+        const loginBody = {
+            username: 'admin',
+            password: 123
+        }
+        let res = http.post('https://test.k6.io/my_messages.php',loginBody);
+        metrics.calculatePai.total_request.add(1);
+        handleMetricsErrors(metrics.calculatePai.errors, res);
+        if (res.status !== 200){
+            metrics.calculatePai.checkFailureRate.add(1);
+        }
+        metrics.calculatePai.requestDuration.add(res.timings.duration);
+        return res;
     }
 }
 
