@@ -52,17 +52,17 @@ export const options = {
 };
 
 export function webtest() {
-    let res = http.get('https://test.k6.io/contacts.php', { tags: { endpoint: "/v1/users" } });
-    metrics.newsAPI.total_request.add(1);
-    metrics.newsAPI.requestDuration.add(res.timings.duration);
+    let res = http.get('https://test.k6.io/contacts.php', { tags: { name: "web_test_api" } });
+    metrics.newsAPI.total_request.add(1, { endpoint: "/v1/users" });
+    metrics.newsAPI.requestDuration.add(res.timings.duration, { endpoint: "/v1/users" });
     if (res.status !== 200){
-        metrics.newsAPI.checkFailureRate.add(1)
+        metrics.newsAPI.checkFailureRate.add(1, { endpoint: "/v1/users" })
     }
     sleep(Math.random() * 2);
 }
 
 export function apitest() {
-    http.get(`https://test-api.k6.io/public/crocodiles/${__ENV.MY_CROC_ID}/`, { tags: { endpoint: "/v2/users" } });
+    http.get(`https://test-api.k6.io/public/crocodiles/${__ENV.MY_CROC_ID}/`, { tags: { name: "api_test_api" } });
     // no need for sleep() here, the iteration pacing will be controlled by the
     // arrival-rate executors above!
 }
